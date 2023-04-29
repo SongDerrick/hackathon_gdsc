@@ -10,20 +10,20 @@ router.post('/chat', function(req, res, next) {
   //res.sendFile(path.join(__dirname, '../personality-test-react/build/index.html'));
   // res.sendFile(path.join(__dirname, 'index.html'));
   const configuration = new Configuration({
-    apiKey: "" //process.env.OPENAI_API_KEY,
+    apiKey: "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" //process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
-
-  
+  // console.log(req.body)
   
   (async () => {
     const messages = req.body
     console.log(req.body)
     
-    //onst history = [];
+    const history = [];
+
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [{"role": "user", "content": "Hello"}],
+      messages: [{"role": "user", "content": messages.data.toString()}],
     });
 
     const completion_text = completion.data.choices[0].message.content;

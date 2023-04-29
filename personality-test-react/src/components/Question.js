@@ -35,6 +35,43 @@ class Question extends Component {
     })
   }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+
+    fetch('/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        data: this.state.userAnswers
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+
+  
+    // axios.post('/', this.state.userAnswers)
+    //   .then(res => {
+    //     console.log(res);
+    //     // do something with the server response
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     // handle error
+    //   });
+  }
+
   // increment the counter and questionId state
   setNextQuestion() {
     const counter = this.state.counter + 1
@@ -56,15 +93,20 @@ class Question extends Component {
     event.preventDefault()
     console.log('User answer:', this.state.answer)
     const userAnswers = [...this.state.userAnswers, this.state.answer] // add current answer to userAnswers array
-    
     console.log(this.props.answer)
+    this.setState({ userAnswers })
+
+
     if(this.state.questionId < quizQuestions.length){
       this.setNextQuestion()
-      this.setState({ userAnswers }) // update userAnswers state
+       // update userAnswers state
       console.log(userAnswers)
     } else {
+      console.log("User answers:", this.state.userAnswers)
       console.log("THe end")
-      console.log("User answers:", this.state.userAnswers) // log all user answers
+      
+       // log all user answers
+      this.handleSubmit(event)
       // send userAnswers array to the server using an HTTP request
       // ... handle the HTTP request logic here
     }
@@ -93,7 +135,7 @@ class Question extends Component {
             questionTotal={quizQuestions.length}
           />
 
-          <form onSubmit={(event) => this.handleAnswerSubmit(event)}>
+          <form className='cen' onSubmit={(event) => this.handleAnswerSubmit(event)}>
             <input
               id="user_output"
               type="text"
@@ -101,7 +143,6 @@ class Question extends Component {
               onChange={(event) => this.handleAnswerInputChange(event)}
             />
             <button type="submit">Submit</button>
-            
           </form> 
         
           

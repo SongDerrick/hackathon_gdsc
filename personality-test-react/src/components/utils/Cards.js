@@ -50,7 +50,7 @@ export const IntroCard = styled.div.attrs({
 
 export const QuestionCard = styled.div.attrs({
   className: 'card'
-})`
+})` /* add this line */  
   position: relative;
   width: 100%;
   margin: 0 auto;
@@ -61,6 +61,32 @@ export const QuestionCard = styled.div.attrs({
   color: #fff;
   ${media.tablet`width: 90%;`};
   ${media.laptop`width: 60%;`};
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  button {
+    background-color: #d4cd96; /* Green */
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 30px; /* make it round */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* add a shadow */
+    transition: all 0.3s ease-in-out; /* add a transition */
+  }
+
+  button:hover {
+    background-color: ${colors.$colorCardBg}; /* Dark green */
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3); /* change shadow on hover */
+    transform: translateY(-3px); /* move the button up slightly on hover */
+  }
   .corner {
     backface-visibility: hidden;
     border-right: 2px solid #d4cd96;
