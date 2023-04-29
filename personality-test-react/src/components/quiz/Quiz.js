@@ -27,39 +27,28 @@ const Wrapper = styled.div`
 `
 
 const Quiz = props => {
-  const renderAnswerOptions = key => {
-    return (
-      <AnswerOption
-        key={key.content}
-        answerContent={key.content}
-        answerType={key.type}
-        answer={props.answer}
-        questionId={props.questionId}
-        onAnswerSelected={props.onAnswerSelected}
-      />
-    )
-  }
+
   return (
     <Wrapper key={props.questionId}>
       <QuestionCount counter={props.questionId} total={props.questionTotal} />
       <div className="w-100" />
       <Question content={props.question} />
+      <Question content={props.answer} />
       <div className="w-100" />
-      <div className="row">
+      {/* <div className="row">
         <ul>{props.answerOptions.map(renderAnswerOptions)}</ul>
-      </div>
+      </div> */}
     </Wrapper>
   )
 }
 
 Quiz.PropTypes = {
   answer: PropTypes.string.isRequired,
-  answerOptions: PropTypes.array.isRequired,
   counter: PropTypes.number.isRequired,
   question: PropTypes.string.isRequired,
   questionId: PropTypes.number.isRequired,
   questionTotal: PropTypes.number.isRequired,
-  onAnswerSelected: PropTypes.func.isRequired
+  buttonClicked: PropTypes.bool.isRequired
 }
 
 export default Quiz

@@ -10,7 +10,7 @@ router.post('/chat', function(req, res, next) {
   //res.sendFile(path.join(__dirname, '../personality-test-react/build/index.html'));
   // res.sendFile(path.join(__dirname, 'index.html'));
   const configuration = new Configuration({
-    apiKey: "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" //process.env.OPENAI_API_KEY,
+    apiKey: "" //process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
