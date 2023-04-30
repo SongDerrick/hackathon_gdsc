@@ -20,7 +20,7 @@ router.post('/chat', function(req, res, next) {
   (async () => {
     const messages = req.body
     console.log(req.body)
-    console.log(process.env.OPENAI_API_KEY)
+    //console.log(process.env.OPENAI_API_KEY)
     
     const history = [];
     
