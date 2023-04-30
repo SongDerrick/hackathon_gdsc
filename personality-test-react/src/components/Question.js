@@ -114,7 +114,7 @@ class Question extends Component {
 
       if(this.state.questionId == 15){
         console.log("챗 지피티 등장....")
-        this.handleSubmit(event)
+        await this.handleSubmit(event)
       } else {
         console.log("api not called anymore")
       }
