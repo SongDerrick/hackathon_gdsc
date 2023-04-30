@@ -24,9 +24,11 @@ class Question extends Component {
       questionId: 1,
       question: '',
       answer: '',
+      responseData: '',
       userAnswers: [] // new array to store user answers
     }
   }
+
 
   // populate app’s state using the componentWillMount life cycle event
   componentWillMount() {
@@ -38,7 +40,7 @@ class Question extends Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    fetch('/chat', {
+    const response = await fetch('/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -50,15 +52,20 @@ class Question extends Component {
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
-      }
+      } 
       return response.json();
+
     })
     .then(data => {
       console.log(data);
+      this.setState({ responseData: data });
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
     });
+
+    // const responseData = await response.json()
+
 
   
     // axios.post('/', this.state.userAnswers)
@@ -73,7 +80,7 @@ class Question extends Component {
   }
 
   // increment the counter and questionId state
-  setNextQuestion() {
+  async setNextQuestion() {
     const counter = this.state.counter + 1
     const questionId = this.state.questionId + 1
     this.setState({
@@ -84,12 +91,12 @@ class Question extends Component {
     })
   }
 
-  handleAnswerInputChange(event) {
+  async handleAnswerInputChange(event) {
     this.setState({ answer: event.target.value })
     
   }
 
-  handleAnswerSubmit(event) {
+  async handleAnswerSubmit(event) {
     event.preventDefault()
     console.log('User answer:', this.state.answer)
     const userAnswers = [...this.state.userAnswers, this.state.answer] // add current answer to userAnswers array
@@ -103,10 +110,17 @@ class Question extends Component {
       console.log(userAnswers)
     } else {
       console.log("User answers:", this.state.userAnswers)
-      console.log("THe end")
+      console.log("The end")
+
+      if(this.state.questionId == 15){
+        console.log("챗 지피티 등장....")
+        this.handleSubmit(event)
+      } else {
+        console.log("api not called anymore")
+      }
       
        // log all user answers
-      this.handleSubmit(event)
+      
       // send userAnswers array to the server using an HTTP request
       // ... handle the HTTP request logic here
     }
@@ -114,14 +128,14 @@ class Question extends Component {
     // ... handle the answer submission logic here
   }
 
+
   // ===========================================================================
   //                       render this question page
   // ===========================================================================
   render() {
-    let resultBriggs = this.state.resultBriggs
-    if (resultBriggs) {
-      return this.renderResult()
-    }
+    // if (resultBriggs) {
+    //   return this.renderResult()
+    // }
     return (
       <Wrapper className="container">
         <QuestionCard>
@@ -142,11 +156,19 @@ class Question extends Component {
               value={this.state.answer}
               onChange={(event) => this.handleAnswerInputChange(event)}
             />
-            <button type="submit">Submit</button>
+            <button type="submit" onSubmit = {this.handleSubmit}>Submit</button>
+            {this.state.responseData && (
+              <p style={{ overflowY: 'scroll', maxHeight: '200px' }}>
+                Response Data: {this.state.responseData && JSON.stringify(this.state.responseData, null, 2).replace(/\\n/g, '')}
+              </p>
+            )}
+
+
           </form> 
         
           
         </QuestionCard>
+        
       </Wrapper>
     )
   }
